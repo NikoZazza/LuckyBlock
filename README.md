@@ -2,7 +2,7 @@
 <b>LuckyBlock</b> is an plugin that allows you to create <b>LuckyBlock</b>!
 
 #How Does It Work
-    When a player breaks a block of Sponge(ID: 19), the plugin performs one of the following commands:
+    When a player breaks a block of Sponge(ID: 19),<br> the plugin performs one of the following commands:
     - spawn a tree
     - an explosion
     - drop an item
