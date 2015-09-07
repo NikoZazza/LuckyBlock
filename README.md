@@ -1,27 +1,27 @@
 # LuckyBlock
 LuckyBlocks is an plugin that allows you to create LuckyBlocks!
 
-How Does It Work
-When a player breaks a block of Sponge(ID: 19), the plugin performs one of the following commands:
-- spawn a tree
-- an explosion
-- drop an item
-- spawn a bedrock
-- spawn a prison
+#How Does It Work
+    When a player breaks a block of Sponge(ID: 19), the plugin performs one of the following commands:
+    - spawn a tree
+    - an explosion
+    - drop an item
+    - spawn a bedrock
+    - spawn a prison
 <hr>
-Commands
-- /luckyblock on = enable the plugin
-- /luckyblock off = disable the plugin
+#Commands
+    - /luckyblock on = enable the plugin
+    - /luckyblock off = disable the plugin
 
 <hr>
-How To Install
-1. Turn off the server with the command /stop. 
-2. Put the file LuckyBlock.phar in the folder /plugins. 
-3. Start your server.
+#How To Install
+    1. Turn off the server with the command /stop. 
+    2. Put the file LuckyBlock.phar in the folder /plugins. 
+    3. Start your server.
 
 <hr>
 
-How To Configure
+#How To Configure
 config.yml
 
     #write here the item list(max allowed: infinite)
@@ -45,16 +45,17 @@ config.yml
 <hr>
 
 message.yml
----
-tree: Tree spammed
-explosion: BOOOM!!!
-drop: Lucky
-sign: It's your problem!
-signText: It's your problem!
-prison: OPS...
-unlucky: Try again maybe you will be more lucky
-...
 
-Features
+    ---
+    tree: Tree spammed
+    explosion: BOOOM!!!
+    drop: Lucky
+    sign: It's your problem!
+    signText: It's your problem!
+    prison: OPS...
+    unlucky: Try again maybe you will be more lucky
+    ...
+
+#Features
 -Chest
 -Money
