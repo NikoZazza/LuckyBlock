@@ -1,0 +1,12 @@
+---
+name: LuckyBlock
+main: LuckyBlock\Main
+version: 1.0.0
+api: [1.12.0]
+load: POSTWORLD
+author: xionbig
+authors: [xionbig]
+website: https://github.com/xionbig/LuckyBlock
+commands:
+ luckyblock:
+  description: "Allows do all that LuckyBlock"
