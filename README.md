@@ -1,5 +1,5 @@
 # LuckyBlock
-LuckyBlocks is an plugin that allows you to create LuckyBlocks!
+<b>LuckyBlock</b> is an plugin that allows you to create <b>LuckyBlock</b>!
 
 #How Does It Work
     When a player breaks a block of Sponge(ID: 19), the plugin performs one of the following commands:
@@ -57,5 +57,16 @@ message.yml
     ...
 
 #Features
--Chest
--Money
+    - Chest
+    - Money
+
+#Licence
+
+    LuckyBlock Copyright (C) 2015 xionbig
+    
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+<a href="https://twitter.com/xionbig">@xionbig</a>
