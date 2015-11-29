@@ -1,12 +1,28 @@
 ---
-name: LuckyBlock
-main: LuckyBlock\Main
-version: 1.0.0
-api: [1.12.0]
 load: POSTWORLD
+main: LuckyBlock\Main
+name: LuckyBlock
+api: ["1.12.0"]
 author: xionbig
-authors: [xionbig]
-website: https://github.com/xionbig/LuckyBlock
+version: "2.0.0"
+website: "https://github.com/xionbig/LuckyBlock"
 commands:
- luckyblock:
-  description: "Allows do all that LuckyBlock"
+  luckyblock:
+    permission: luckyblock.command
+    description: "LuckyBlock is an plugin that allows you to create LuckyBlock!"
+    usage: "/luckyblock <command> [args..]"
+  lb:
+    permission: luckyblock.command
+    description: "LuckyBlock is an plugin that allows you to create LuckyBlock!"
+    usage: "/lb <command> [args..]"
+permissions:
+  luckyblock:
+    default: false
+    description: "Allows using everything LuckyBlock has"
+    children:
+      luckyblock.command:
+        default: op
+        description: "Allows using /luckyblock command"
+      luckyblock.use:
+        default: true
+        description: "Allows the player to use the plugin"

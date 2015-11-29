@@ -1,13 +1,35 @@
----
+--- 
+#sets the block to activate the plugin
+lucky_block: 19
+
+#sets the block to be used for prison
+prison_block: 49
+
+#sets the minimum of money to give to the players 
+#(If you do not have the plugin PocketMoney, €¢onom¥$ or MassiveEconomy, 
+#then the plugin will not give money to the players)
+money_min: 0
+#sets the maximum of money to give to the players 
+money_max: 1
+
 #write here the item list(max allowed: infinite)
 #example
-item:
-- "46"
+items_dropped: 
+- "tnt"
+- "259"
+- "17:1"
+items_chest:
+- "tnt"
 - "259"
 - "17:1"
 
-#the radius of the explosion (min. 1, max 30)
-explosion: 3
+#the maximum of the items that the plugin will put inside the chest
+max_chest_item: 4
+
+#the minimum radius of the explosion
+explosion_min: 1
+#the maximum radius of the explosion
+explosion_max: 3
 
 #turn on/off the plugin
 status: "on"
@@ -17,4 +39,4 @@ status: "on"
 #if you want to apply only on two or more worlds, enter the names of the worlds separated by a comma
 #example level: world, hungergames, lobby
 level: []
-...
+
