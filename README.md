@@ -1,17 +1,22 @@
 # LuckyBlock
 <b>LuckyBlock</b> is an plugin that allows you to create <b>LuckyBlock</b>!
 
+Official website and for more information, go <a href="http://xionbig.netsons.org/plugins/LuckyBlock/"> here</a>
+
 #How Does It Work
     When a player breaks a block of Sponge(ID: 19),<br> the plugin performs one of the following commands:
-    - spawn a tree
-    - an explosion
-    - drop an item
-    - spawn a bedrock
-    - spawn a prison
+       - spawn a tree.
+       - an explosion.
+       - drop an item.
+       - spawn a bedrock.
+       - spawn a prison.
+       - spawn a chest with items.
+       - give money to a player.
+       - teleport a player to a default spawn location.
+
 <hr>
 #Commands
-    - /luckyblock on = enable the plugin
-    - /luckyblock off = disable the plugin
+    Go to this <a href="http://xionbig.netsons.org/plugins/LuckyBlock/commands.php">page</a>
 
 <hr>
 #How To Install
@@ -24,15 +29,38 @@
 #How To Configure
 config.yml
 
+    --- 
+    #sets the block to activate the plugin
+    lucky_block: 19
+    
+    #sets the block to be used for prison
+    prison_block: 49
+    
+    #sets the minimum of money to give to the players 
+    #(If you do not have the plugin PocketMoney, €¢onom¥$ or MassiveEconomy, 
+    #then the plugin will not give money to the players)
+    money_min: 0
+    #sets the maximum of money to give to the players 
+    money_max: 1
+    
     #write here the item list(max allowed: infinite)
     #example
-    item:
-    - "46"
+    items_dropped: 
+    - "tnt"
+    - "259"
+    - "17:1"
+    items_chest:
+    - "tnt"
     - "259"
     - "17:1"
     
-    #the radius of the explosion (min. 1, max 30)
-    explosion: 3
+    #the maximum of the items that the plugin will put inside the chest
+    max_chest_item: 4
+    
+    #the minimum radius of the explosion
+    explosion_min: 1
+    #the maximum radius of the explosion
+    explosion_max: 3
     
     #turn on/off the plugin
     status: "on"
@@ -45,21 +73,8 @@ config.yml
 <hr>
 
 message.yml
-
-    ---
-    tree: Tree spammed
-    explosion: BOOOM!!!
-    drop: Lucky
-    sign: It's your problem!
-    signText: It's your problem!
-    prison: OPS...
-    unlucky: Try again maybe you will be more lucky
-    ...
-
-#Features
-    - Chest
-    - Money
-
+    Go to this <a href="http://xionbig.netsons.org/plugins/LuckyBlock/translate/">page</a>
+    
 #Licence
 
     LuckyBlock Copyright (C) 2015 xionbig
