@@ -1,7 +1,7 @@
 # LuckyBlock
 <b>LuckyBlock</b> is an plugin that allows you to create <b>LuckyBlock</b>!
 
-Official website and for more information, go <a href="http://xionbig.netsons.org/plugins/LuckyBlock/"> here</a>
+Official website and for more information, go <a href="http://devs4pm.eu/forums/resources/luckyblock.35/"> here</a>
 
 #How Does It Work
     When a player breaks a block of Sponge(ID: 19),<br> the plugin performs one of the following commands:
