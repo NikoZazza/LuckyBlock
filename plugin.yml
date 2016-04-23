@@ -2,19 +2,10 @@
 load: POSTWORLD
 main: LuckyBlock\Main
 name: LuckyBlock
-api: ["1.12.0"]
+api: 2.0.0
 author: xionbig
-version: "2.0.0"
+version: 3.0.0
 website: "https://github.com/xionbig/LuckyBlock"
-commands:
-  luckyblock:
-    permission: luckyblock.command
-    description: "LuckyBlock is an plugin that allows you to create LuckyBlock!"
-    usage: "/luckyblock <command> [args..]"
-  lb:
-    permission: luckyblock.command
-    description: "LuckyBlock is an plugin that allows you to create LuckyBlock!"
-    usage: "/lb <command> [args..]"
 permissions:
   luckyblock:
     default: false

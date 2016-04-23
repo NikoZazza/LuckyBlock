@@ -1,12 +1,14 @@
---- 
-chest: "You are very lucky!"
-drop: Lucky
+---
+tree: Tree spammed
 explosion: BOOOM!!!
-money: "You just won %MONEY%"
-not_allowed: "You are not authorized to use the plugin"
+drop: Lucky
+sign: It's your problem!
+signText: It's your problem!
 prison: OPS...
-sign: "It's your problem!"
-signText: "It's your problem!"
+unlucky: Try again maybe you will be more lucky
 spawn: Muahahahahha
-tree: "Tree spammed"
-unlucky: "Try again maybe you will be more lucky"
+money: You just won %MONEY%
+chest: You are very lucky!
+not_allowed: You are not authorized to use the plugin!
+effect: AhiAhiAhiOOAhiAhiAhi
+...

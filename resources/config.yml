@@ -1,20 +1,20 @@
---- 
+---
 #sets the block to activate the plugin
 lucky_block: 19
 
 #sets the block to be used for prison
 prison_block: 49
 
-#sets the minimum of money to give to the players 
-#(If you do not have the plugin PocketMoney, Ä¢onom•$ or MassiveEconomy, 
+#sets the minimum of money to give to the players
+#(If you do not have the plugin PocketMoney, "onom≈§ or MassiveEconomy,
 #then the plugin will not give money to the players)
 money_min: 0
-#sets the maximum of money to give to the players 
+#sets the maximum of money to give to the players
 money_max: 1
 
 #write here the item list(max allowed: infinite)
 #example
-items_dropped: 
+items_dropped:
 - "tnt"
 - "259"
 - "17:1"
@@ -40,3 +40,11 @@ status: "on"
 #example level: world, hungergames, lobby
 level: []
 
+#write here the name of the potions that you want to be enabled in the plugin
+#you can find potions available here https://github.com/PocketMine/PocketMine-MP/blob/master/src/pocketmine/entity/Effect.php
+potion:
+- "poison"
+- "slowless"
+
+#write here how many seconds maximum should past for the potions
+max_duration: 20
