@@ -238,8 +238,7 @@ class Main extends PluginBase implements Listener
             $event->setCancelled();
             $player->getLevel()->setBlock($block, new Block(Block::AIR), false, true);
             $rand = new Random();
-            //switch ($rand->nextRange(1, 9)) {
-            switch (9) {
+            switch ($rand->nextRange(1, 10)) {
                 case 1:
                     $type = Sapling::OAK;
                     switch ($rand->nextRange(0, 3)) {
