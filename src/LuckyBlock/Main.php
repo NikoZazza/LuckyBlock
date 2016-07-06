@@ -74,6 +74,7 @@ class Main extends PluginBase implements Listener
 
     public function onEnable()
     {
+        $this->saveDefaultConfig();
         $dataResources = $this->getDataFolder() . "/resources/";
         if (!file_exists($this->getDataFolder()))
             @mkdir($this->getDataFolder(), 0755, true);
