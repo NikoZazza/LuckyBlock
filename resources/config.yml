@@ -2,23 +2,9 @@
 #sets the block to activate the plugin
 lucky_block: 19
 
-#sets the block to be used for prison
-prison_block: 49
-
-#sets the minimum of money to give to the players
-#(If you do not have the plugin PocketMoney, "onomŤ or MassiveEconomy,
-#then the plugin will not give money to the players)
-money_min: 0
-#sets the maximum of money to give to the players
-money_max: 1
-
 #write here the item list(max allowed: infinite)
 #example
 items_dropped:
-- "tnt"
-- "259"
-- "17:1"
-items_chest:
 - "tnt"
 - "259"
 - "17:1"
@@ -48,3 +34,41 @@ potion:
 
 #write here how many seconds maximum should past for the potions
 max_duration: 20
+#The list of available functions. You can disabled or activate them with false or true.
+functions:
+  spawnTree: true
+  explosion: true
+  dropItem: true
+  bedrock: true
+  prison: true
+  chest: true
+  teleport: true
+  potion: true
+  mob: true
+  execCmd: true
+  lightning: true
+
+#List of mobs that can be spammed.
+mob:
+- Cow
+- Pig
+- Zombie
+
+#The maximum time that the mob may explode (Seconds)
+mob_explosion_delay: 1
+
+#The list of commands that can be run from the console.
+#The command can be executed on the player by writing %PLAYER% in the line.
+#It is possible to use other parameters as the player:
+# - %PLAYER% => the name of the player
+# - %WORLD% => the world where the player is located
+# - %X% => the position of the player
+# - %Y% => the position of the player
+# - %Z% => the position of the player
+# - %IP% => the address of the player
+# - %XP% => the experience of the player
+commands:
+- kick %PLAYER% You aren't Lucky!
+- banip %IP%
+
+...

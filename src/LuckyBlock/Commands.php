@@ -19,7 +19,7 @@
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details. *
+ * GNU General Public License for more details.
  */
 namespace LuckyBlock;
 
@@ -28,6 +28,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\PluginIdentifiableCommand;
 use pocketmine\entity\Effect;
 use pocketmine\item\Item;
+use pocketmine\plugin\Plugin;
 use pocketmine\utils\Config;
 use pocketmine\utils\TextFormat;
 
@@ -44,7 +45,7 @@ class Commands extends Command implements PluginIdentifiableCommand
 
     public function __construct(Main $luckyBlock, &$setup, &$data)
     {
-        parent::__construct("luckyblock", "LuckyBlock is an plugin that allows you to create LuckyBlock!", "/lucky <command> <value>", ["luckyblock", "lucky"]);
+        parent::__construct("luckyblock", "LuckyBlock is an plugin that allows you to create LuckyBlock!", "/lucky <command> <value>", ["luckyblock", "lucky", "lb"]);
         $this->luckyBlock = $luckyBlock;
         $this->data = $data;
         $this->setup = $setup;
@@ -54,7 +55,7 @@ class Commands extends Command implements PluginIdentifiableCommand
     {
         $label = "/" . $label . " ";
         if (!$sender->hasPermission("luckyblock.command")) {
-            $sender->sendMessage($this->tag . TextFormat::DARK_RED . "You do not have permission to use this command!");
+            $sender->sendMessage($this->tag . TextFormat::RED . "You do not have permission to use this command!");
             return;
         }
         if (!isset($args) || !isset($args[0]))
@@ -64,13 +65,13 @@ class Commands extends Command implements PluginIdentifiableCommand
             $cmds = $cmds . "<" . $var . "> ";
 
         $args[0] = strtolower($args[0]);
-        $sender->sendMessage($this->tag . TextFormat::DARK_AQUA . "Usage: " . $label . $cmds);
+        $sender->sendMessage($this->tag . "Usage: " . TextFormat::DARK_AQUA . $label . $cmds);
 
         switch ($args[0]) {
             case "?":
             case "h":
             case "help":
-                $var = ["on", "off", "potion <add|rmv|list|duration> <effect>", "block <item>", "prison <item>", "explosion <min|max|info>", "chest <add|rmv|list|max>", "drop <add|rmv|list>", "world <allow|deny|list>", "money <min|max|info>"];
+                $var = ["on <none|function>", "off <none|function>", "list", "potion <add|rmv|list|duration> <effect>", "block <item>", "explosion <min|max|info>", "drop <add|rmv|list|max>", "world <allow|deny|list>", "command", "mob"];
                 $message = "";
                 foreach ($var as $c)
                     $message .= $this->tag . TextFormat::WHITE . $label . $c . "\n";
@@ -86,11 +87,11 @@ class Commands extends Command implements PluginIdentifiableCommand
                     case "?":
                     case "h":
                     case "help":
-                        $sender->sendMessage($this->tag . TextFormat::YELLOW . $label . TextFormat::WHITE . " drop " . TextFormat::YELLOW . " <add|rmv|list>");
+                        $sender->sendMessage($this->tag . TextFormat::YELLOW . $label . TextFormat::WHITE . " potion " . TextFormat::YELLOW . " <add|rmv|list>");
                         return;
                     case "add":
                         if (!isset($args[2]) || empty($args[2])) {
-                            $sender->sendMessage($this->tag . TextFormat::DARK_RED . "Invalid parameters.");
+                            $sender->sendMessage($this->tag . TextFormat::RED . "Invalid parameters.");
                             return;
                         }
                         if (Effect::getEffectByName($args[2]) instanceof Effect) {
@@ -102,13 +103,13 @@ class Commands extends Command implements PluginIdentifiableCommand
                             } else
                                 $sender->sendMessage($this->tag . TextFormat::YELLOW . "The potion '" . $args[2] . "' is already present in the configuration.");
                         } else
-                            $sender->sendMessage($this->tag . TextFormat::DARK_RED . "The name of the potion is not valid");
+                            $sender->sendMessage($this->tag . TextFormat::RED . "The name of the potion is not valid");
                         break;
                     case "rmw":
                     case "rmv":
                     case "remove":
                         if (!isset($args[2]) || empty($args[2])) {
-                            $sender->sendMessage($this->tag . TextFormat::DARK_RED . "Invalid parameters.");
+                            $sender->sendMessage($this->tag . TextFormat::RED . "Invalid parameters.");
                             return;
                         }
                         if (in_array($args[2], $this->data["potions"])) {
@@ -132,7 +133,7 @@ class Commands extends Command implements PluginIdentifiableCommand
 
                     case "duration":
                         if (!isset($args[2]) || empty($args[2]) || !is_numeric($args[2]) || $args[2] < 1) {
-                            $sender->sendMessage($this->tag . TextFormat::DARK_RED . "Invalid parameters.");
+                            $sender->sendMessage($this->tag . TextFormat::RED . "Invalid parameters.");
                             return;
                         }
                         $this->setup->set("max_duration", $args[2]);
@@ -141,7 +142,7 @@ class Commands extends Command implements PluginIdentifiableCommand
                 }
                 $this->luckyBlock->reloadSetup($this->data);
                 return;
-
+            case "item":
             case "drop":
                 if (!isset($args[1]) || empty($args[1]))
                     $args[1] = "help";
@@ -153,7 +154,7 @@ class Commands extends Command implements PluginIdentifiableCommand
                         return;
                     case "add":
                         if (!isset($args[2]) || empty($args[2])) {
-                            $sender->sendMessage($this->tag . TextFormat::DARK_RED . "Invalid parameters.");
+                            $sender->sendMessage($this->tag . TextFormat::RED . "Invalid parameters.");
                             return;
                         }
                         $item = $this->luckyBlock->getItem($args[2]);
@@ -166,13 +167,13 @@ class Commands extends Command implements PluginIdentifiableCommand
                             } else
                                 $sender->sendMessage($this->tag . TextFormat::YELLOW . "The item '" . $item->getName() . "' is already present in the configuration.");
                         } else
-                            $sender->sendMessage($this->tag . TextFormat::DARK_RED . "The item is not valid.");
+                            $sender->sendMessage($this->tag . TextFormat::RED . "The item is not valid.");
                         break;
                     case "rmw":
                     case "rmv":
                     case "remove":
                         if (!isset($args[2]) || empty($args[2])) {
-                            $sender->sendMessage($this->tag . TextFormat::DARK_RED . "Invalid parameters.");
+                            $sender->sendMessage($this->tag . TextFormat::RED . "Invalid parameters.");
                             return;
                         }
                         $item = $this->luckyBlock->getItem($args[2]);
@@ -188,92 +189,35 @@ class Commands extends Command implements PluginIdentifiableCommand
                             } else
                                 $sender->sendMessage($this->tag . TextFormat::GREEN . "The item '" . $item->getName() . "' was not found in the configuration.");
                         } else
-                            $sender->sendMessage($this->tag . TextFormat::DARK_RED . "The item is not valid.");
+                            $sender->sendMessage($this->tag . TextFormat::RED . "The item is not valid.");
                         break;
                     case "list":
-                        $list = $this->tag . "List of items dropped: ";
+                        $list = $this->tag . "List of items: ";
                         foreach ($this->data["items_dropped"] as $item)
-                            $list .= $item->getName() . "(id=" . $item->getId() . " damage=" . $item->getDamage() . "); ";
-                        $sender->sendMessage($list);
-                        break;
-                }
-                $this->luckyBlock->reloadSetup($this->data);
-                return;
-
-            case "chest":
-                if (!isset($args[1]) || empty($args[1]))
-                    $args[1] = "help";
-                switch ($args[1]) {
-                    case "?":
-                    case "h":
-                    case "help":
-                        $sender->sendMessage($this->tag . TextFormat::YELLOW . $label . TextFormat::WHITE . " chest " . TextFormat::YELLOW . " <add|rmv|list>");
-                        return;
-                    case "add":
-                        if (!isset($args[2]) || empty($args[2])) {
-                            $sender->sendMessage($this->tag . TextFormat::DARK_RED . "Invalid parameters.");
-                            return;
-                        }
-                        $item = $this->luckyBlock->getItem($args[2]);
-                        if ($item->getId() != Item::AIR) {
-                            if (!$this->luckyBlock->isExists($this->data["items_chest"], $item)) {
-                                $arr = $this->setup->get("items_chest");
-                                $arr[count($arr)] = $item->getId() . ":" . $item->getDamage();
-                                $this->setup->set("items_chest", $arr);
-                                $sender->sendMessage($this->tag . TextFormat::GREEN . "The item '" . $item->getName() . "' has been added successfully.");
-                            } else
-                                $sender->sendMessage($this->tag . TextFormat::YELLOW . "The item '" . $item->getName() . "' is already present in the configuration.");
-                        } else
-                            $sender->sendMessage($this->tag . TextFormat::DARK_RED . "The item is not valid.");
-                        break;
-                    case "rmw":
-                    case "rmv":
-                    case "remove":
-                        if (!isset($args[2]) || empty($args[2])) {
-                            $sender->sendMessage($this->tag . TextFormat::DARK_RED . "Invalid parameters.");
-                            return;
-                        }
-                        $item = $this->luckyBlock->getItem($args[2]);
-                        if ($item->getId() != Item::AIR) {
-                            if ($this->luckyBlock->isExists($this->data["items_chest"], $item)) {
-                                $it = [];
-                                foreach ($this->data["items_chest"] as $i) {
-                                    if ($i->getId() !== $item->getId() && $i->getDamage() !== $item->getId())
-                                        $it[] = $i->getId() . ":" . $i->getDamage();
-                                }
-                                $this->setup->set("items_chest", $it);
-                                $sender->sendMessage($this->tag . TextFormat::GREEN . "The item '" . $item->getName() . "' has been successfully removed.");
-                            } else
-                                $sender->sendMessage($this->tag . TextFormat::GREEN . "the item '" . $item->getName() . "' was not found in the configuration.");
-                        } else
-                            $sender->sendMessage($this->tag . TextFormat::DARK_RED . "The item is not valid.");
-                        break;
-                    case "list":
-                        $list = $this->tag . "List of items of the chest: ";
-                        foreach ($this->data["items_chest"] as $item)
                             $list .= $item->getName() . "(id=" . $item->getId() . " damage=" . $item->getDamage() . "); ";
                         $sender->sendMessage($list);
                         break;
                     case "max":
                         if (!isset($args[2]) || !is_numeric($args[2]) || $args[2] <= 0) {
-                            $sender->sendMessage($this->tag . TextFormat::DARK_RED . "Invalid parameters.");
+                            $sender->sendMessage($this->tag . TextFormat::RED . "Invalid parameters.");
                             return;
                         }
                         $this->setup->set("max_chest_item", $args[2]);
                         $sender->sendMessage($this->tag . TextFormat::GREEN . "The maximum of the items generated inside the chest set to " . $args[2]);
                         break;
                 }
-                $this->luckyBlock->reloadSetup($this->data);
+                $this->luckyBlock->reloadSetup($this->data, $this->setup);
                 return;
+
             case "explosion":
                 if (!isset($args[1]) || empty($args[1])) {
-                    $sender->sendMessage($this->tag . TextFormat::DARK_RED . "Invalid parameters.");
+                    $sender->sendMessage($this->tag . TextFormat::RED . "Invalid parameters.");
                     return;
                 }
                 switch ($args[1]) {
                     case "min":
                         if (!isset($args[2]) || !is_numeric($args[2]) || $args[2] < 0) {
-                            $sender->sendMessage($this->tag . TextFormat::DARK_RED . "Invalid parameters.");
+                            $sender->sendMessage($this->tag . TextFormat::RED . "Invalid parameters.");
                             return;
                         }
                         $this->setup->set("explosion_min", $args[2]);
@@ -281,7 +225,7 @@ class Commands extends Command implements PluginIdentifiableCommand
                         break;
                     case "max":
                         if (!isset($args[2]) || !is_numeric($args[2]) || $args[2] < 0) {
-                            $sender->sendMessage($this->tag . TextFormat::DARK_RED . "Invalid parameters.");
+                            $sender->sendMessage($this->tag . TextFormat::RED . "Invalid parameters.");
                             return;
                         }
                         $this->setup->set("explosion_max", $args[2]);
@@ -291,11 +235,11 @@ class Commands extends Command implements PluginIdentifiableCommand
                         $sender->sendMessage($this->tag . TextFormat::AQUA . "Explosion set minimum " . $this->data["explosion_min"] . " and maximum " . $this->data["explosion_max"]);
                         return;
                 }
-                $this->luckyBlock->reloadSetup($this->data);
+                $this->luckyBlock->reloadSetup($this->data, $this->setup);
                 return;
             case "block"://luckyblock
                 if (!isset($args[1]) || empty($args[1])) {
-                    $sender->sendMessage($this->tag . TextFormat::DARK_RED . "Invalid parameters.");
+                    $sender->sendMessage($this->tag . TextFormat::RED . "Invalid parameters.");
                     return;
                 }
                 $item = $this->luckyBlock->getItem($args[1]);
@@ -303,52 +247,8 @@ class Commands extends Command implements PluginIdentifiableCommand
                     $this->setup->set("lucky_block", $item->getId() . ":" . $item->getDamage());
                     $sender->sendMessage($this->tag . TextFormat::GREEN . "Now the LuckyBlock is " . $item->getName());
                 } else
-                    $sender->sendMessage($this->tag . TextFormat::DARK_RED . "The item is not valid.");
-                $this->luckyBlock->reloadSetup($this->data);
-                return;
-            case "prison":
-                if (!isset($args[1]) || empty($args[1])) {
-                    $sender->sendMessage($this->tag . TextFormat::DARK_RED . "Invalid parameters.");
-                    return;
-                }
-                $item = $this->luckyBlock->getItem($args[1]);
-                if ($item->getId() != Item::AIR) {
-                    $this->setup->set("prison_block", $item->getId() . ":" . $item->getDamage());
-                    $sender->sendMessage($this->tag . TextFormat::GREEN . "Now the prison block is " . $item->getName());
-                } else
-                    $sender->sendMessage($this->tag . TextFormat::DARK_RED . "The item is not valid.");
-                $this->luckyBlock->reloadSetup($this->data);
-                return;
-            case "money":
-                if (!isset($args[1]) || empty($args[1]))
-                    $args[1] = "help";
-                switch ($args[1]) {
-                    case "?":
-                    case "h":
-                    case "help":
-                        $sender->sendMessage($this->tag . TextFormat::YELLOW . $label . TextFormat::WHITE . " money " . TextFormat::YELLOW . " <min|max|info>");
-                        return;
-                    case "min":
-                        if (!isset($args[2]) || !is_numeric($args[2])) {
-                            $sender->sendMessage($this->tag . TextFormat::DARK_RED . "Invalid parameters.");
-                            return;
-                        }
-                        $this->setup->set("money_min", $args[2]);
-                        $sender->sendMessage($this->tag . TextFormat::GREEN . "Setting the value of the minimum range of the money generated...");
-                        break;
-                    case "max":
-                        if (!isset($args[2]) || !is_numeric($args[2])) {
-                            $sender->sendMessage($this->tag . TextFormat::DARK_RED . "Invalid parameters.");
-                            return;
-                        }
-                        $this->setup->set("money_max", $args[2]);
-                        $sender->sendMessage($this->tag . TextFormat::GREEN . "Setting the value of the maximum range of the money generated...");
-                        break;
-                    case "info":
-                        $sender->sendMessage($this->tag . TextFormat::AQUA . "The range of the values generated for the money is included from " . $this->data["money_min"] . " to " . $this->data["money_max"]);
-                        return;
-                }
-                $this->luckyBlock->reloadSetup($this->data);
+                    $sender->sendMessage($this->tag . TextFormat::RED . "The item is not valid.");
+                $this->luckyBlock->reloadSetup($this->data, $this->setup);
                 return;
 
             case "world":
@@ -362,7 +262,7 @@ class Commands extends Command implements PluginIdentifiableCommand
                         return;
                     case "allow":
                         if (!isset($args[2]) || empty($args[2])) {
-                            $sender->sendMessage($this->tag . TextFormat::DARK_RED . "Invalid parameters.");
+                            $sender->sendMessage($this->tag . TextFormat::RED . "Invalid parameters.");
                             return;
                         }
                         unset($args[0]);
@@ -383,11 +283,10 @@ class Commands extends Command implements PluginIdentifiableCommand
                         break;
                     case "deny":
                         if (!isset($args[2]) || empty($args[2])) {
-                            $sender->sendMessage($this->tag . TextFormat::DARK_RED . "Invalid parameters.");
+                            $sender->sendMessage($this->tag . TextFormat::RED . "Invalid parameters.");
                             return;
                         }
-                        unset($args[0]);
-                        unset($args[1]);
+                        $args = array_slice($args, 2);
                         $level = "";
                         foreach ($args as $a)
                             $level .= $a . " ";
@@ -404,7 +303,7 @@ class Commands extends Command implements PluginIdentifiableCommand
                             $this->setup->set("level", $get);
                             $sender->sendMessage($this->tag . TextFormat::GREEN . "The world '" . $level . "' has been removed from the configuration.");
                         } else
-                            $sender->sendMessage($this->tag . TextFormat::DARK_RED . "The world '" . $level . "' does not exist in the configuration.");
+                            $sender->sendMessage($this->tag . TextFormat::RED . "The world '" . $level . "' does not exist in the configuration.");
                         break;
                     case "list":
                         if (count($this->data["level"]) == 0) {
@@ -417,33 +316,225 @@ class Commands extends Command implements PluginIdentifiableCommand
                         $sender->sendMessage($list);
                         break;
                 }
-                $this->luckyBlock->reloadSetup($this->data);
+                $this->luckyBlock->reloadSetup($this->data, $this->setup);
                 return;
-
+            case "cmd":
+            case "command":
+            case "commands":
+                if (!isset($args[1]) || empty($args[1]))
+                    $args[1] = "help";
+                switch ($args[1]) {
+                    case "?":
+                    case "h":
+                    case "help":
+                        $sender->sendMessage($this->tag . TextFormat::YELLOW . $label . TextFormat::WHITE . " command " . TextFormat::YELLOW . " <add|rmv|list>");
+                        return;
+                    case "add":
+                        if (!isset($args[2]) || empty($args[2])) {
+                            $sender->sendMessage($this->tag . TextFormat::RED . "Invalid parameters.");
+                            return;
+                        }
+                        $command = "";
+                        $arg = array_slice($args, 2);
+                        foreach ($arg as $a)
+                            $command .= " " . $a;
+                        $arr = $this->setup->get("commands");
+                        $command = trim(str_replace("/", "", $command));
+                        $arr[count($arr)] = $command;
+                        $this->setup->set("commands", $arr);
+                        $sender->sendMessage($this->tag . TextFormat::GREEN . "The command '/" . $command . "' has been added successfully!");
+                        break;
+                    case "rmw":
+                    case "rmv":
+                    case "remove":
+                        if (!isset($args[2]) || empty($args[2])) {
+                            $sender->sendMessage($this->tag . TextFormat::RED . "Invalid parameters.");
+                            return;
+                        }
+                        $command = "";
+                        $arg = array_slice($args, 2);
+                        foreach ($arg as $a)
+                            $command .= " " . $a;
+                        $command = trim(str_replace("/", "", $command));
+                        $get = $this->data["commands"];
+                        $found = false;
+                        foreach ($get as $c => $w) {
+                            if (trim(str_replace("/", "", $w)) == $command) {
+                                unset($get[$c]);
+                                $found = true;
+                            }
+                        }
+                        if ($found) {
+                            $this->setup->set("commands", $get);
+                            $sender->sendMessage($this->tag . TextFormat::GREEN . "The command '/" . $command . "' has been removed from the configuration.");
+                        } else
+                            $sender->sendMessage($this->tag . TextFormat::RED . "The command '/" . $command . "' does not exist in the configuration.");
+                        break;
+                    case "list":
+                        if (count($this->data["commands"]) == 0) {
+                            $sender->sendMessage($this->tag . TextFormat::RED . "There aren't stored commands!");
+                            break;
+                        }
+                        $sender->sendMessage($this->tag . "List of commands: ");
+                        foreach ($this->data["commands"] as $c)
+                            $sender->sendMessage("- /" . $c);
+                        break;
+                }
+                $this->luckyBlock->reloadSetup($this->data, $this->setup);
+                return;
+            case "mob":
+                if (!isset($args[1]) || empty($args[1]))
+                    $args[1] = "help";
+                switch ($args[1]) {
+                    case "?":
+                    case "h":
+                    case "help":
+                        $sender->sendMessage($this->tag . TextFormat::YELLOW . $label . TextFormat::WHITE . " mob " . TextFormat::YELLOW . " <add|rmv|delay|list>");
+                        return;
+                    case "add":
+                        if (!isset($args[2]) || empty($args[2])) {
+                            $sender->sendMessage($this->tag . TextFormat::RED . "Invalid parameters.");
+                            return;
+                        }
+                        $mob = "";
+                        $arg = array_slice($args, 2);
+                        foreach ($arg as $a)
+                            $mob .= " " . $a;
+                        $arr = $this->setup->get("mob");
+                        $mob = str_replace(" ", "", ucwords($mob));
+                        if ($this->luckyBlock->isExistsEntity($mob)) {
+                            $found = false;
+                            foreach ($arr as $c => $w) {
+                                if (str_replace(" ", "", $w) == $mob) {
+                                    $found = true;
+                                }
+                            }
+                            if ($found) {
+                                $sender->sendMessage($this->tag . TextFormat::YELLOW . "The entity '" . $mob . "' has already been added.");
+                                return;
+                            } else {
+                                $arr[count($arr)] = $mob;
+                                $this->setup->set("mob", $arr);
+                                $sender->sendMessage($this->tag . TextFormat::GREEN . "The mob '" . $mob . "' has been added successfully!");
+                            }
+                        } else {
+                            $sender->sendMessage($this->tag . TextFormat::RED . "The entity '" . $mob . "' isn't valid.");
+                            return;
+                        }
+                        break;
+                    case "rmw":
+                    case "rmv":
+                    case "remove":
+                        if (!isset($args[2]) || empty($args[2])) {
+                            $sender->sendMessage($this->tag . TextFormat::RED . "Invalid parameters.");
+                            return;
+                        }
+                        $mob = "";
+                        $arg = array_slice($args, 2);
+                        foreach ($arg as $a)
+                            $mob .= " " . $a;
+                        $arr = $this->data["mob"];
+                        $mob = str_replace(" ", "", ucwords($mob));
+                        $found = false;
+                        foreach ($arr as $c => $w) {
+                            if (str_replace(" ", "", $w) == $mob) {
+                                unset($arr[$c]);
+                                $found = true;
+                            }
+                        }
+                        if ($found) {
+                            $sender->sendMessage($this->tag . TextFormat::GREEN . "The entity '" . $mob . "' has been removed successfully.");
+                            $this->setup->set("mob", $arr);
+                        } else {
+                            $sender->sendMessage($this->tag . TextFormat::RED . "The mob '" . $mob . "' doesn't exist in the configuration!");
+                            return;
+                        }
+                        break;
+                    case "delay":
+                        if (!isset($args[2]) || empty($args[2]) || !is_numeric($args[2])) {
+                            $sender->sendMessage($this->tag . TextFormat::RED . "Invalid parameters.");
+                            return;
+                        }
+                        $this->setup->set("mob_explosion_delay", $args[2]);
+                        $sender->sendMessage($this->tag . TextFormat::GREEN . "The explosion delay of the mob is set to " . $args[2]);
+                        break;
+                    case "list":
+                        if (count($this->data["mob"]) == 0) {
+                            $sender->sendMessage($this->tag . TextFormat::RED . "There aren't stored mobs!");
+                            break;
+                        }
+                        $list = $this->tag . "List of mobs: ";
+                        foreach ($this->data["mob"] as $c)
+                            $list .= $c . "; ";
+                        $sender->sendMessage($list);
+                        break;
+                }
+                $this->luckyBlock->reloadSetup($this->data, $this->setup);
+                return;
             case "on":
             case "true":
-                $this->setup->set("status", "on");
-                $this->luckyBlock->reloadSetup($this->data);
-                $sender->sendMessage($this->tag . TextFormat::DARK_GREEN . "Plugin activated!");
+                if (!isset($args[1]) || empty($args[1])) {
+                    $this->setup->set("status", "on");
+                    $sender->sendMessage($this->tag . TextFormat::GREEN . "Plugin activated!");
+                } else {
+                    $arr = $this->data["functions"];
+                    $found = false;
+                    foreach ($arr as $c => $w) {
+                        if (strtolower($c) == strtolower($args[1])) {
+                            $arr[$c] = true;
+                            $found = true;
+                        }
+                    }
+                    if ($found) {
+                        $this->setup->set("functions", $arr);
+                        $sender->sendMessage($this->tag . TextFormat::GREEN . "The function '" . $args[1] . "' has been enabled!");
+                    } else {
+                        $sender->sendMessage($this->tag . TextFormat::YELLOW . "The function " . $args[1] . " was not found!");
+                    }
+                }
+                $this->luckyBlock->reloadSetup($this->data, $this->setup);
                 return;
 
             case "off":
             case "false":
-                $this->setup->set("status", "off");
-                $this->luckyBlock->reloadSetup($this->data);
-                $sender->sendMessage($this->tag . TextFormat::DARK_RED . "Plugin disabled!");
+                if (!isset($args[1]) || empty($args[1])) {
+                    $this->setup->set("status", "off");
+                    $sender->sendMessage($this->tag . TextFormat::RED . "Plugin disabled!");
+                } else {
+                    $arr = $this->data["functions"];
+                    $found = false;
+                    foreach ($arr as $c => $w) {
+                        if (strtolower($c) == strtolower($args[1])) {
+                            $arr[$c] = false;
+                            $found = true;
+                        }
+                    }
+                    if ($found) {
+                        $this->setup->set("functions", $arr);
+                        $sender->sendMessage($this->tag . TextFormat::RED . "The function '" . $args[1] . "' has been disabled!");
+                    } else {
+                        $sender->sendMessage($this->tag . TextFormat::YELLOW . "The function " . $args[1] . " was not found!");
+                    }
+                }
+                $this->luckyBlock->reloadSetup($this->data, $this->setup);
+                return;
+            case "list":
+                $sender->sendMessage($this->tag . "List of functions:");
+                foreach ($this->data["functions"] as $f => $v) {
+                    $text = $v == true ? TextFormat::GREEN . "enabled" : TextFormat::RED . "disabled";
+                    $sender->sendMessage("- " . TextFormat::AQUA . $f . TextFormat::WHITE . " => " . $text);
+                }
                 return;
         }
-        $sender->sendMessage($this->tag . TextFormat::DARK_RED . "The command does not exist!");
+        $sender->sendMessage($this->tag . TextFormat::RED . "The command does not exist!");
     }
 
     /**
      * @return Main
      */
-    public function getPlugin()
+    public function getPlugin(): Plugin
     {
         return $this->luckyBlock;
     }
-
 
 }
